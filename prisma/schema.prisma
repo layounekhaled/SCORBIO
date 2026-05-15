@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  tagline       String
+  description   String
+  problemText   String
+  solutionText  String
+  benefits      String   // JSON array of benefits
+  usage         String   // Usage instructions
+  price         Int      // Price in DA (Algerian Dinar)
+  originalPrice Int?     // Original price before discount
+  imageUrl      String
+  category      String   // "skincare" | "supplement"
+  stock         Int      @default(100)
+  active        Boolean  @default(true)
+  orderIndex    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orders        OrderItem[]
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  nomClient       String
+  telephone       String
+  adresse         String
+  commune         String
+  codeWilaya      String
+  wilayaName      String
+  montant         Int
+  status          String   @default("en_preparation_stock")
+  affiliateCode   String?
+  promoCode       String?
+  discount        Int      @default(0)
+  ecotrackId      String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  items           OrderItem[]
+  affiliate       Affiliate? @relation(fields: [affiliateCode], references: [code])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  produit   String
+  quantite  Int     @default(1)
+  prix      Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Affiliate {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  name          String
+  email         String?
+  phone         String?
+  commissionRate Int    @default(20) // Percentage
+  totalSales    Int     @default(0)
+  totalCommissions Int  @default(0)
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orders        Order[]
+}
+
+model PromoCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  discountType String  // "percentage" | "fixed"
+  discountValue Int
+  minOrder    Int      @default(0)
+  maxUses     Int?
+  currentUses Int      @default(0)
+  active      Boolean  @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  product   String?
+  rating    Int      @default(5)
+  text      String
+  avatarUrl String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
