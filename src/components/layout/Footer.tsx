@@ -27,9 +27,9 @@ export function Footer() {
               <Image
                 src="/logo.png"
                 alt="SCORBIO"
-                width={180}
-                height={50}
-                className="h-12 w-auto brightness-0 invert"
+                width={220}
+                height={60}
+                className="h-16 w-auto brightness-0 invert"
               />
             </Link>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs">

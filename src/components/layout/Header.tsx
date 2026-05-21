@@ -43,15 +43,15 @@ export function Header() {
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-24 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
             <Image
               src="/logo.png"
               alt="SCORBIO"
-              width={200}
-              height={56}
-              className="h-14 w-auto transition-transform duration-200 group-hover:scale-105"
+              width={280}
+              height={80}
+              className="h-20 w-auto transition-transform duration-200 group-hover:scale-105"
               priority
             />
           </Link>
@@ -132,9 +132,9 @@ export function Header() {
               <Image
                 src="/logo.png"
                 alt="SCORBIO"
-                width={160}
-                height={44}
-                className="h-11 w-auto"
+                width={200}
+                height={56}
+                className="h-14 w-auto"
               />
             </SheetTitle>
           </SheetHeader>
