@@ -78,3 +78,4 @@ worklog.md
 
 # Caddy config (deployment specific)
 Caddyfile
+.env*.local
