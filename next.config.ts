@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   reactStrictMode: false,
+  serverExternalPackages: ['@prisma/client'],
 };
 
 export default nextConfig;
