@@ -1,11 +1,16 @@
 FROM node:22-alpine AS builder
 RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
+# Override NODE_ENV to install all dependencies (including devDependencies)
+ENV NODE_ENV=development
 COPY package.json package-lock.json ./
 COPY prisma ./prisma/
 RUN npm install
+# Copy source code
 COPY . .
 RUN npx prisma generate
+# Set back to production for the build
+ENV NODE_ENV=production
 RUN npm run build
 
 FROM node:22-alpine AS runner
